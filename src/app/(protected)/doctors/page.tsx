@@ -1,7 +1,6 @@
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import React from "react";
 
 import {
   PageActions,
@@ -26,6 +25,9 @@ const DoctorsPage = async () => {
   if (!session?.user) {
     redirect("/authentication");
   }
+  if (!session.user.plan) {
+    redirect("/new-subscription");
+  }
   if (!session.user.clinic) {
     redirect("/clinic-form");
   }
@@ -37,9 +39,7 @@ const DoctorsPage = async () => {
       <PageHeader>
         <PageHeaderContent>
           <PageTitle>Médicos</PageTitle>
-          <PageDescription>
-            Gerencie os médicos cadastrados no sistema
-          </PageDescription>
+          <PageDescription>Gerencie os médicos da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
           <AddDoctorButton />
